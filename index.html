@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080d1c">
+  <meta name="description" content="Rychlý lokální vyhledávač kontaktů">
+  <link rel="manifest" href="./manifest.webmanifest">\n  <link rel="apple-touch-icon" href="./icon-192.png">\n  <meta name="apple-mobile-web-app-capable" content="yes">\n  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="./icon-192.png" type="image/png">
+  <link rel="stylesheet" href="style.css?v=3">
+  <title>ORBIT • Kontakty</title>
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="ORBIT Kontakty">
+        <span class="brand-mark"><span></span><span></span><span></span></span>
+        <span><b>ORBIT</b><small>CONTACT INTELLIGENCE</small></span>
+      </a>
+      <div class="top-actions">
+        <span class="local-pill"><i></i> LOKÁLNÍ REŽIM</span>
+        <button id="installBtn" class="icon-btn" hidden title="Instalovat aplikaci"><span>＋</span><em>Instalovat</em></button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> OSOBNÍ DATABÁZOVÝ TERMINÁL</div>
+        <h1>Najdi spojení.<br><span>Okamžitě.</span></h1>
+        <p>Rychlé vyhledávání napříč rozsáhlou databází kontaktů. Data zůstávají bezpečně ve vašem zařízení.</p>
+        <div class="hero-meta">
+          <span><b class="pulse-dot"></b> OFFLINE PŘIPRAVENO</span>
+          <span class="meta-sep"></span><span>INDEXOVANÉ VYHLEDÁVÁNÍ</span>
+        </div>
+      </div>
+      <div class="globe-stage" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="globe">
+          <div class="globe-grid"></div><div class="globe-shine"></div>
+          <div class="globe-pin pin-one"></div><div class="globe-pin pin-two"></div><div class="globe-pin pin-three"></div>
+        </div>
+        <div class="globe-label label-top">GLOBAL INDEX <b>● LIVE</b></div>
+        <div class="globe-label label-bottom">LOCAL DATABASE <b>100% PRIVATE</b></div>
+      </div>
+    </section>
+
+    <section class="workspace">
+      <div class="section-head">
+        <div><div class="eyebrow">VYHLEDÁVACÍ ROZHRANÍ</div><h2>Databáze kontaktů</h2></div>
+        <div class="db-state" id="dbState"><span class="state-dot"></span><span>Databáze nepřipojena</span></div>
+      </div>
+
+      <div class="load-panel" id="loadPanel">
+        <div class="load-icon"><span>↥</span></div>
+        <div class="load-copy"><b>Otevřít databázi</b><span>Vyberte svůj CSV soubor • UTF-8 • až miliony záznamů</span></div>
+        <button id="openBtn" class="primary-btn"><span>Otevřít CSV</span><b>↗</b></button>
+        <input id="fileInput" type="file" accept=".csv,text/csv" hidden>
+      </div>
+
+      <div class="progress-wrap" id="progressWrap" hidden>
+        <div class="progress-top"><b id="progressTitle">Příprava databáze…</b><span id="progressPct">0%</span></div>
+        <div class="progress-track"><div id="progressBar"></div></div>
+        <small id="progressInfo">Zpracování probíhá přímo v tomto zařízení.</small>
+      </div>
+
+      <div class="search-panel">
+        <div class="search-topline"><span class="search-caption"><span class="search-symbol">⌕</span> INTELIGENTNÍ VYHLEDÁVÁNÍ</span><span class="shortcut">ŽIVÉ VÝSLEDKY <i></i></span></div>
+        <div class="search-row">
+          <div class="search-input-wrap">
+            <span class="search-icon">⌕</span>
+            <input id="searchInput" type="search" autocomplete="off" placeholder="Zadejte jméno, příjmení, telefon, adresu…" disabled>
+            <button id="clearBtn" class="clear-btn" title="Vymazat hledání" hidden>×</button>
+            <span class="search-spinner" id="searchSpinner"></span>
+          </div>
+          <select id="fieldSelect" aria-label="Vyhledávat v" disabled>
+            <option value="*">Všechny sloupce</option>
+            <option value="Jmeno">Jméno</option><option value="Prijmeni">Příjmení</option>
+            <option value="Telefon">Telefon</option><option value="Bydliste">Bydliště</option>
+            <option value="Mesto">Město</option><option value="Email">Email</option>
+            <option value="Facebook_ID">Facebook ID</option><option value="Zamestnani">Zaměstnání</option>
+          </select>
+        </div>
+        <div class="search-hints"><span>TIP</span> Hledání funguje od začátku slov. Více slov můžete oddělit mezerou.</div>
+      </div>
+
+      <div class="results-head">
+        <div><h3>Výsledky <span id="resultCount" class="count">0</span></h3><p id="resultSub">Otevřete CSV databázi a začněte vyhledávat.</p></div>
+        <div class="result-tools"><span id="shownCount">0 ZÁZNAMŮ</span></div>
+      </div>
+      <div id="results" class="results">
+        <div class="empty-state">
+          <div class="empty-orbit"><span></span></div>
+          <b>Čekám na databázi</b><p>Po otevření CSV se zde zobrazí výsledky vyhledávání.</p>
+        </div>
+      </div>
+      <div class="more-row" id="moreRow" hidden><span id="moreText">Zobrazeno prvních 100 výsledků</span></div>
+    </section>
+
+    <footer><span>ORBIT CONTACTS <b>v1.0</b></span><span>VAŠE DATA. VAŠE ZAŘÍZENÍ.</span><button id="reopenBtn">↻ Změnit databázi</button></footer>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js?v=3"></script>
+</body>
+</html>
